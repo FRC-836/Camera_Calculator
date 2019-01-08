@@ -14,6 +14,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
 
 #fine QtWidgets library
 find_package(Qt5Widgets REQUIRED)
@@ -31,6 +32,8 @@ set(include inc/MainWindow.h
 
 set(forms inc/MainWindow.ui
           )
+set(resources res/Resources.qrc
+              )
             
 #create the executable
 add_executable(${PROJECT_NAME} ${src} ${include} ${forms})

@@ -30,6 +30,7 @@ class MainWindow : public QMainWindow
 
   public slots:
     //public slots
+    void btnResetClickHandler();
 
 };
 

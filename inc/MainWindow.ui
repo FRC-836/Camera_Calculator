@@ -6,20 +6,127 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>609</width>
+    <height>393</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Camera Calculator</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QGroupBox" name="gboxVtInfo">
+      <property name="title">
+       <string>Vision Target Information</string>
+      </property>
+      <layout class="QFormLayout" name="formLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="lblVtHeight">
+         <property name="text">
+          <string>Height (in.)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QDoubleSpinBox" name="dspnVtHeight"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="lblVtWidth">
+         <property name="text">
+          <string>Width(in.)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QDoubleSpinBox" name="dspnVtWidth"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="lblVtCenterHeight">
+         <property name="text">
+          <string>Height To Center (in.)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QDoubleSpinBox" name="dspnVtCenterHeight"/>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="gboxCameraInfo">
+      <property name="title">
+       <string>Camera Information</string>
+      </property>
+      <layout class="QFormLayout" name="formLayout_2">
+       <item row="0" column="0">
+        <widget class="QLabel" name="lblFovHor">
+         <property name="text">
+          <string>Horizontal FOV (deg)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QDoubleSpinBox" name="dspnFovHor"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="lblFovVert">
+         <property name="text">
+          <string>Vertical FOV (deg)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QDoubleSpinBox" name="dspnFovVert"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="lblMinDistance">
+         <property name="text">
+          <string>Min Detect Distance (in.)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QDoubleSpinBox" name="dspnMinDistance"/>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="gboxResults">
+      <property name="title">
+       <string>Results</string>
+      </property>
+      <layout class="QFormLayout" name="formLayout_3"/>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QPushButton" name="btnReset">
+        <property name="text">
+         <string>Reset</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnCalculate">
+        <property name="text">
+         <string>Calculate</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>609</width>
      <height>12</height>
     </rect>
    </property>
@@ -38,7 +145,6 @@
    <addaction name="mnuFile"/>
    <addaction name="mnuHelp"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <action name="actAbout">
    <property name="text">
     <string>About</string>
@@ -50,6 +156,8 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="../res/Resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

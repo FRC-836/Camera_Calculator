@@ -18,14 +18,44 @@
     <item>
      <layout class="QFormLayout" name="formLayout">
       <item row="0" column="0">
-       <widget class="QLabel" name="lblTemp">
+       <widget class="QLabel" name="lblVtHeight">
         <property name="text">
-         <string>Temp</string>
+         <string>Vision Target Height (in.)</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QLineEdit" name="lneTemp"/>
+       <widget class="QDoubleSpinBox" name="dspnVtHeight"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="lblCameraFovVert">
+        <property name="text">
+         <string>Camera Vertical FOV (deg)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QDoubleSpinBox" name="dspnCameraFovVert"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="lblCameraFovHor">
+        <property name="text">
+         <string>Camera Horizontal FOV (deg)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QDoubleSpinBox" name="dspnCameraFovHor"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="lblMinDistance">
+        <property name="text">
+         <string>Minimum Detection Distance (in.): </string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QDoubleSpinBox" name="dspnMinDistance"/>
       </item>
      </layout>
     </item>

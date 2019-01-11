@@ -91,23 +91,13 @@
         <widget class="QDoubleSpinBox" name="dspnCamMinDistance"/>
        </item>
        <item row="3" column="0">
-        <widget class="QLabel" name="lblCamHeight">
-         <property name="text">
-          <string>Height To Lense (in.)</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QDoubleSpinBox" name="dspnCamHeight"/>
-       </item>
-       <item row="4" column="0">
         <widget class="QLabel" name="lblCamPitch">
          <property name="text">
           <string>Pitch (deg)</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="1">
+       <item row="3" column="1">
         <widget class="QDoubleSpinBox" name="dspnCamPitch"/>
        </item>
       </layout>

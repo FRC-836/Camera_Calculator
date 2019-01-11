@@ -13,6 +13,8 @@ void MainWindow::makeConnections()
   connect(m_ui->btnReset, &QPushButton::clicked, this, &MainWindow::btnResetClickHandler);
   connect(m_ui->btnCalculate, &QPushButton::clicked, 
           this, &MainWindow::btnCalculateClickHandler);
+  connect(m_ui->btnClearHistory, &QPushButton::clicked, 
+          m_ui->lstResults, &QListWidget::clear);
 
   connect(m_ui->actClose, &QAction::triggered, this, &MainWindow::close);
   connect(m_ui->actAbout, &QAction::triggered, this, &MainWindow::actAboutHandler);

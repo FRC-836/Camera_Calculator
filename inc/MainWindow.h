@@ -42,7 +42,6 @@ class MainWindow : public QMainWindow
     void btnResetClickHandler();
     void btnCalculateClickHandler();
     void actAboutHandler();
-
 };
 
 #endif

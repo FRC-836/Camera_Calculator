@@ -25,11 +25,13 @@ void MainWindow::reset()
   } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
 
   //set all the values back to 0
-  m_ui->dspnFovHor->setValue(0.0);
-  m_ui->dspnFovVert->setValue(0.0);
+  m_ui->dspnCamPitch->setValue(0.0);
   m_ui->dspnVtWidth->setValue(0.0);
   m_ui->dspnVtHeight->setValue(0.0);
-  m_ui->dspnMinDistance->setValue(0.0);
+  m_ui->dspnCamHeight->setValue(0.0);
+  m_ui->dspnCamFovHor->setValue(0.0);
+  m_ui->dspnCamFovVert->setValue(0.0);
+  m_ui->dspnCamMinDistance->setValue(0.0);
   m_ui->dspnVtCenterHeight->setValue(0.0);
 
   //clear the results window since they are now stale

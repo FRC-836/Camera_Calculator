@@ -57,8 +57,9 @@ void MainWindow::calculateResult()
   auto maxCamH = minDist * std::tan((vFov / 2) - camPitch) + (tgtHeight - (tgtSizeH / 2));
 
   //print to the screen
-  m_ui->lstResults->addItem("min: " + QString::number(minCamH));
-  m_ui->lstResults->addItem("max: " + QString::number(maxCamH));
+  m_ui->lstResults->insertItem(0, ""); //blank item to help seperate results
+  m_ui->lstResults->insertItem(0, "max: " + QString::number(maxCamH));
+  m_ui->lstResults->insertItem(0, "min: " + QString::number(minCamH));
 }
 void MainWindow::displayAbout()
 {

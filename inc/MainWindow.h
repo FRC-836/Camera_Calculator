@@ -2,6 +2,7 @@
 #define CAMERA_CALCULATOR_MAIN_WINDOW_H
 
 #include <memory>
+#include <cmath>
 
 #include <QMainWindow>
 #include <QCloseEvent>

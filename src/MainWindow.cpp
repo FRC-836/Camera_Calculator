@@ -43,8 +43,22 @@ void MainWindow::calculateResult()
     cout << "DEBUG: MainWindow: calculateResult()" << endl;
   } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
 
-  //TEMP
-  m_ui->lstResults->addItem("Test");
+  //get values
+  auto minDist = m_ui->dspnCamMinDistance->value();
+  auto vFov = (m_ui->dspnCamFovVert->value() * 3.14159265) / 180;
+  auto camPitch = (m_ui->dspnCamPitch->value() * 3.14159265) / 180;
+  auto tgtHeight = m_ui->dspnVtCenterHeight->value();
+  auto tgtSizeH = m_ui->dspnVtHeight->value();
+
+  //minCamHeight = minDetectDist * tan((FOVv / 2) + camPitch) + (tgtHeight + (tgtL / 2))
+  auto minCamH = -minDist * std::tan((vFov / 2) + camPitch) + (tgtHeight + (tgtSizeH / 2));
+
+  //maxCamheight = minDetectDist * tan((FOVv / 2) - camPitch) + (tgtHeight - (tgtL / 2))
+  auto maxCamH = minDist * std::tan((vFov / 2) - camPitch) + (tgtHeight - (tgtSizeH / 2));
+
+  //print to the screen
+  m_ui->lstResults->addItem("min: " + QString::number(minCamH));
+  m_ui->lstResults->addItem("max: " + QString::number(maxCamH));
 }
 void MainWindow::displayAbout()
 {

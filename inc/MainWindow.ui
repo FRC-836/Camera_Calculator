@@ -98,7 +98,11 @@
       <property name="title">
        <string>Results</string>
       </property>
-      <layout class="QFormLayout" name="formLayout_3"/>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="0">
+        <widget class="QListWidget" name="lstResults"/>
+       </item>
+      </layout>
      </widget>
     </item>
     <item>

@@ -23,6 +23,17 @@ void MainWindow::reset()
   {
     cout << "DEBUG: MainWindow: reset()" << endl;
   } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
+
+  //set all the values back to 0
+  m_ui->dspnFovHor->setValue(0.0);
+  m_ui->dspnFovVert->setValue(0.0);
+  m_ui->dspnVtWidth->setValue(0.0);
+  m_ui->dspnVtHeight->setValue(0.0);
+  m_ui->dspnMinDistance->setValue(0.0);
+  m_ui->dspnVtCenterHeight->setValue(0.0);
+
+  //clear the results window since they are now stale
+  m_ui->lstResults->clear();
 }
 void MainWindow::calculateResult()
 {
@@ -30,6 +41,9 @@ void MainWindow::calculateResult()
   {
     cout << "DEBUG: MainWindow: calculateResult()" << endl;
   } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
+
+  //TEMP
+  m_ui->lstResults->addItem("Test");
 }
 void MainWindow::displayAbout()
 {

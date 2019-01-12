@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="images">
+    <file>images/right_triangle_labeled.png</file>
+  </qresource>
+</RCC>

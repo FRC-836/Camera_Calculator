@@ -1,0 +1,6 @@
+:open CMakeLists.txt
+:tabe src/main.cpp
+:tabe src/MainWindow.cpp
+:sp inc/MainWindow.h
+:tabe src/CmdOptions.cpp
+:sp inc/CmdOptions.h

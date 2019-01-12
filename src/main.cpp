@@ -23,7 +23,6 @@ int main(int argc, char** argv)
   if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
   {
     cout << "Verbosity:        " << CmdOptions::verbosity << endl;
-    cout << "Game Config File: " << CmdOptions::configFilePath << endl;
   } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
 
   MainWindow mainWindow;
@@ -38,8 +37,7 @@ bool parseCmd(QCommandLineParser& parser)
   parser.addHelpOption();
   parser.setApplicationDescription("Analyze the scoring in robotics games");
 
-  parser.addOptions({{{"v", "verbosity"}, "Verbosity of the info displayed", "verbosityLevel", "3"},
-                     {{"c", "config"}, "Location of the game config file", "configPath", ""}});
+  parser.addOptions({{{"v", "verbosity"}, "Verbosity of the info displayed", "verbosityLevel", "3"}});
 
   parser.process(QCoreApplication::arguments());
 
@@ -55,8 +53,6 @@ bool parseCmd(QCommandLineParser& parser)
   verbosity = (verbosity > static_cast<int>(CmdOptions::VERBOSITY::ALL_INFO)) ? 
                static_cast<int>(CmdOptions::VERBOSITY::ALL_INFO) : verbosity;
   CmdOptions::verbosity = static_cast<CmdOptions::VERBOSITY>(verbosity);
-
-  CmdOptions::configFilePath = parser.value("config");
 
   return true;
 }

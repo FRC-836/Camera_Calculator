@@ -16,8 +16,27 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
-#fine QtWidgets library
+#find QtWidgets library
 find_package(Qt5Widgets REQUIRED)
+
+if(WIN32)
+  if(CMAKE_CL_64)
+    set(ARCH "64")
+  else(CMAKE_CL_64)
+    set(ARCH "32")
+  endif(CMAKE_CL_64)
+else(WIN32)
+  string(REGEX MATCH ".*[86|32]$" matches "${CMAKE_SYSTEM_PROCESSOR}")
+  if(matches)
+    set(ARCH "32")
+  else(matches)
+    set(ARCH "64")
+  endif(matches)
+endif(WIN32)
+set(TARGET_DIR ${CMAKE_BINARY_DIR}/${CMAKE_SYSTEM_NAME}${ARCH})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${TARGET_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${TARGET_DIR}/bin)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${TARGET_DIR}/lib)
 
 #setup source files
 set(src src/main.cpp

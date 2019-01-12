@@ -2,8 +2,10 @@
 #define CAMERA_CALCULATOR_MAIN_WINDOW_H
 
 #include <memory>
+#include <cmath>
 
 #include <QMainWindow>
+#include <QCloseEvent>
 
 #include "ui_MainWindow.h"
 #include "OutputManager.h"
@@ -17,6 +19,13 @@ class MainWindow : public QMainWindow
 
     //private functions
     void makeConnections();
+    void reset();
+    void calculateResult();
+    void displayAbout();
+
+  protected:
+    //event handlers
+    void closeEvent(QCloseEvent* e) override;
 
   public:
     //constructors
@@ -31,7 +40,8 @@ class MainWindow : public QMainWindow
   public slots:
     //public slots
     void btnResetClickHandler();
-
+    void btnCalculateClickHandler();
+    void actAboutHandler();
 };
 
 #endif

@@ -61,34 +61,44 @@
       </property>
       <layout class="QFormLayout" name="formLayout_2">
        <item row="0" column="0">
-        <widget class="QLabel" name="lblFovHor">
+        <widget class="QLabel" name="lblCamFovHor">
          <property name="text">
           <string>Horizontal FOV (deg)</string>
          </property>
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QDoubleSpinBox" name="dspnFovHor"/>
+        <widget class="QDoubleSpinBox" name="dspnCamFovHor"/>
        </item>
        <item row="1" column="0">
-        <widget class="QLabel" name="lblFovVert">
+        <widget class="QLabel" name="lblCamFovVert">
          <property name="text">
           <string>Vertical FOV (deg)</string>
          </property>
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QDoubleSpinBox" name="dspnFovVert"/>
+        <widget class="QDoubleSpinBox" name="dspnCamFovVert"/>
        </item>
        <item row="2" column="0">
-        <widget class="QLabel" name="lblMinDistance">
+        <widget class="QLabel" name="lblCamMinDistance">
          <property name="text">
           <string>Min Detect Distance (in.)</string>
          </property>
         </widget>
        </item>
        <item row="2" column="1">
-        <widget class="QDoubleSpinBox" name="dspnMinDistance"/>
+        <widget class="QDoubleSpinBox" name="dspnCamMinDistance"/>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="lblCamPitch">
+         <property name="text">
+          <string>Pitch (deg)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QDoubleSpinBox" name="dspnCamPitch"/>
        </item>
       </layout>
      </widget>
@@ -98,7 +108,11 @@
       <property name="title">
        <string>Results</string>
       </property>
-      <layout class="QFormLayout" name="formLayout_3"/>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="0">
+        <widget class="QListWidget" name="lstResults"/>
+       </item>
+      </layout>
      </widget>
     </item>
     <item>
@@ -107,6 +121,13 @@
        <widget class="QPushButton" name="btnReset">
         <property name="text">
          <string>Reset</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnClearHistory">
+        <property name="text">
+         <string>Clear History</string>
         </property>
        </widget>
       </item>

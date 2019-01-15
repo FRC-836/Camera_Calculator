@@ -38,11 +38,11 @@ void MainWindow::reset()
   //clear the results window since they are now stale
   m_ui->lstResults->clear();
 }
-void MainWindow::calculateResult()
+MainWindow::CalcReturn_t MainWindow::calculateHeights()
 {
   if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
   {
-    cout << "DEBUG: MainWindow: calculateResult()" << endl;
+    cout << "DEBUG: MainWindow: calculateHeights()" << endl;
   } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
 
   //get values
@@ -53,15 +53,15 @@ void MainWindow::calculateResult()
   auto tgtSizeH = m_ui->dspnVtHeight->value();
 
   //minCamHeight = minDetectDist * tan((FOVv / 2) + camPitch) + (tgtHeight + (tgtL / 2))
-  auto minCamH = -minDist * std::tan((vFov / 2) + camPitch) + (tgtHeight + (tgtSizeH / 2));
+  auto minCamH = -minDist * std::tan((vFov / 2) + camPitch) + tgtHeight - (tgtSizeH / 2);
 
   //maxCamheight = minDetectDist * tan((FOVv / 2) - camPitch) + (tgtHeight - (tgtL / 2))
-  auto maxCamH = minDist * std::tan((vFov / 2) - camPitch) + (tgtHeight - (tgtSizeH / 2));
+  auto maxCamH = minDist * std::tan((vFov / 2) - camPitch) + tgtHeight + (tgtSizeH / 2);
 
-  //print to the screen
-  m_ui->lstResults->insertItem(0, ""); //blank item to help seperate results
-  m_ui->lstResults->insertItem(0, "max: " + QString::number(maxCamH));
-  m_ui->lstResults->insertItem(0, "min: " + QString::number(minCamH));
+  CalcReturn_t toReturn;
+  std::get<(int)ResultHelper::MAX>(toReturn) = maxCamH;
+  std::get<(int)ResultHelper::MIN>(toReturn) = minCamH;
+  return toReturn;
 }
 void MainWindow::displayAbout()
 {
@@ -116,7 +116,14 @@ void MainWindow::btnCalculateClickHandler()
   {
     cout << "DEBUG: MainWindow: btnCalculateClickHandler()" << endl;
   } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
-  calculateResult();
+  auto results = calculateHeights();
+  auto max = std::get<(int)ResultHelper::MAX>(results);
+  auto min = std::get<(int)ResultHelper::MIN>(results);
+
+  //print to the screen
+  m_ui->lstResults->insertItem(0, ""); //blank item to help seperate results
+  m_ui->lstResults->insertItem(0, "max: " + QString::number(max));
+  m_ui->lstResults->insertItem(0, "min: " + QString::number(min));
 }
 void MainWindow::actAboutHandler()
 {

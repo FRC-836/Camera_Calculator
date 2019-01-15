@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <cmath>
+#include <tuple>
 
 #include <QMainWindow>
 #include <QCloseEvent>
@@ -14,13 +15,21 @@
 class MainWindow : public QMainWindow
 {
   private:
+    //enums and types
+    enum class ResultHelper
+    {
+      MIN,
+      MAX
+    };
+    using CalcReturn_t = std::tuple<double, double>;
+
     //member variables
     std::unique_ptr<Ui_MainWindow> m_ui;
 
     //private functions
     void makeConnections();
     void reset();
-    void calculateResult();
+    CalcReturn_t calculateHeights();
     void displayAbout();
 
   protected:

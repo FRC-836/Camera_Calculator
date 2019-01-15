@@ -83,7 +83,7 @@
        <item row="2" column="0">
         <widget class="QLabel" name="lblCamMinDistance">
          <property name="text">
-          <string>Min Detect Distance (in.)</string>
+          <string>Distance To Tgt (in.)</string>
          </property>
         </widget>
        </item>

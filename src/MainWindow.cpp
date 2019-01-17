@@ -28,6 +28,7 @@ void MainWindow::reset()
 
   //set all the values back to 0
   m_ui->dspnCamPitch->setValue(0.0);
+  m_ui->dspnCamYaw->setValue(0.0);
   m_ui->dspnVtWidth->setValue(0.0);
   m_ui->dspnVtHeight->setValue(0.0);
   m_ui->dspnCamFovHor->setValue(0.0);
@@ -38,25 +39,16 @@ void MainWindow::reset()
   //clear the results window since they are now stale
   m_ui->lstResults->clear();
 }
-MainWindow::CalcReturn_t MainWindow::calculateHeights()
+MainWindow::CalcReturn_t MainWindow::calcHeight(const TriangleInfo& params)
 {
   if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
   {
     cout << "DEBUG: MainWindow: calculateHeights()" << endl;
   } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
 
-  //get values
-  auto minDist = m_ui->dspnCamMinDistance->value();
-  auto vFov = (m_ui->dspnCamFovVert->value() * 3.14159265) / 180;
-  auto camPitch = (m_ui->dspnCamPitch->value() * 3.14159265) / 180;
-  auto tgtHeight = m_ui->dspnVtCenterHeight->value();
-  auto tgtSizeH = m_ui->dspnVtHeight->value();
-
-  //minCamHeight = minDetectDist * tan((FOVv / 2) + camPitch) + (tgtHeight + (tgtL / 2))
-  auto minCamH = -minDist * std::tan((vFov / 2) + camPitch) + tgtHeight - (tgtSizeH / 2);
-
-  //maxCamheight = minDetectDist * tan((FOVv / 2) - camPitch) + (tgtHeight - (tgtL / 2))
-  auto maxCamH = minDist * std::tan((vFov / 2) - camPitch) + tgtHeight + (tgtSizeH / 2);
+  //calculate min and max camera heights
+  auto minCamH = -params.minDist * std::tan((params.vFov / 2) + params.camPitch) + params.tgtHeight - (params.tgtSizeV / 2);
+  auto maxCamH = params.minDist * std::tan((params.vFov / 2) - params.camPitch) + params.tgtHeight + (params.tgtSizeV / 2);
 
   CalcReturn_t toReturn;
   std::get<(int)ResultHelper::MAX>(toReturn) = maxCamH;
@@ -116,7 +108,19 @@ void MainWindow::btnCalculateClickHandler()
   {
     cout << "DEBUG: MainWindow: btnCalculateClickHandler()" << endl;
   } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
-  auto results = calculateHeights();
+  //get parameters
+  auto dist = m_ui->dspnCamMinDistance->value();
+  auto vFov = m_ui->dspnCamFovVert->value() * DEG_TO_RAD;
+  auto hFov = m_ui->dspnCamFovHor->value() * DEG_TO_RAD;
+  auto camPitch = m_ui->dspnCamPitch->value() * DEG_TO_RAD;
+  auto camYaw = m_ui->dspnCamYaw->value() * DEG_TO_RAD;
+  auto tgtHeight = m_ui->dspnVtCenterHeight->value();
+  auto tgtSizeV = m_ui->dspnVtHeight->value();
+  auto tgtSizeH = m_ui->dspnVtWidth->value();
+
+  auto params = TriangleInfo(dist,vFov,hFov,camPitch,camYaw,tgtHeight,tgtSizeV,tgtSizeH);
+
+  auto results = calcHeight(params);
   auto max = std::get<(int)ResultHelper::MAX>(results);
   auto min = std::get<(int)ResultHelper::MIN>(results);
 

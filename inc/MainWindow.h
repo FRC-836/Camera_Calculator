@@ -15,6 +15,10 @@
 class MainWindow : public QMainWindow
 {
   private:
+    //useful constants
+    const double RAD_TO_DEG = 180.0 / 3.14159265;
+    const double DEG_TO_RAD = 3.14159265 / 180.0;
+
     //enums and types
     enum class ResultHelper
     {
@@ -22,6 +26,29 @@ class MainWindow : public QMainWindow
       MAX
     };
     using CalcReturn_t = std::tuple<double, double>;
+    struct TriangleInfo
+    {
+      double minDist;
+      double vFov;
+      double hFov;
+      double camPitch;
+      double camYaw;
+      double tgtHeight;
+      double tgtSizeV;
+      double tgtSizeH;
+      TriangleInfo(double minDist, double vFov, double hFov, double camPitch,
+                   double camYaw, double tgtHeight, double tgtSizeV, double tgtSizeH)
+      {
+        this->minDist = minDist;
+        this->vFov = vFov;
+        this->hFov = hFov;
+        this->camPitch = camPitch;
+        this->camYaw = camYaw;
+        this->tgtHeight = tgtHeight;
+        this->tgtSizeH = tgtSizeH;
+        this->tgtSizeV = tgtSizeV;
+      }
+    };
 
     //member variables
     std::unique_ptr<Ui_MainWindow> m_ui;
@@ -29,7 +56,10 @@ class MainWindow : public QMainWindow
     //private functions
     void makeConnections();
     void reset();
-    CalcReturn_t calculateHeights();
+    CalcReturn_t calcHeight(const TriangleInfo& params);
+    CalcReturn_t calcDistance(const TriangleInfo& params);
+    CalcReturn_t calcFov(const TriangleInfo& params);
+    CalcReturn_t calcPitch(const TriangleInfo& params);
     void displayAbout();
 
   protected:

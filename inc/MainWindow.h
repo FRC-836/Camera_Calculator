@@ -29,6 +29,8 @@ class MainWindow : public QMainWindow
     struct TriangleInfo
     {
       double minDist;
+      double camHeight;
+      double camOffset;
       double vFov;
       double hFov;
       double camPitch;
@@ -36,10 +38,13 @@ class MainWindow : public QMainWindow
       double tgtHeight;
       double tgtSizeV;
       double tgtSizeH;
-      TriangleInfo(double minDist, double vFov, double hFov, double camPitch,
-                   double camYaw, double tgtHeight, double tgtSizeV, double tgtSizeH)
+      TriangleInfo(double minDist, double camHeight, double camOffset, double vFov, 
+                   double hFov, double camPitch, double camYaw, double tgtHeight, 
+                   double tgtSizeV, double tgtSizeH)
       {
         this->minDist = minDist;
+        this->camHeight = camHeight;
+        this->camOffset = camOffset;
         this->vFov = vFov;
         this->hFov = hFov;
         this->camPitch = camPitch;
@@ -55,6 +60,7 @@ class MainWindow : public QMainWindow
 
     //private functions
     void makeConnections();
+    void setup();
     void reset();
     CalcReturn_t calcHeight(const TriangleInfo& params);
     CalcReturn_t calcDistance(const TriangleInfo& params);

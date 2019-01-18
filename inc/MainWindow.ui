@@ -28,18 +28,12 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QDoubleSpinBox" name="dspnVtHeight"/>
-       </item>
        <item row="1" column="0">
         <widget class="QLabel" name="lblVtWidth">
          <property name="text">
           <string>Width(in.)</string>
          </property>
         </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QDoubleSpinBox" name="dspnVtWidth"/>
        </item>
        <item row="2" column="0">
         <widget class="QLabel" name="lblVtCenterHeight">
@@ -48,8 +42,14 @@
          </property>
         </widget>
        </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="lneVtHeight"/>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="lneVtWidth"/>
+       </item>
        <item row="2" column="1">
-        <widget class="QDoubleSpinBox" name="dspnVtCenterHeight"/>
+        <widget class="QLineEdit" name="lneVtCenterHeight"/>
        </item>
       </layout>
      </widget>
@@ -61,82 +61,74 @@
       </property>
       <layout class="QFormLayout" name="formLayout_2">
        <item row="0" column="0">
+        <widget class="QLabel" name="lblCamHeight">
+         <property name="text">
+          <string>Height To Camera (in.)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="lneCamHeight"/>
+       </item>
+       <item row="2" column="0">
         <widget class="QLabel" name="lblCamFovHor">
          <property name="text">
           <string>Horizontal FOV (deg)</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QDoubleSpinBox" name="dspnCamFovHor">
-         <property name="maximum">
-          <double>360.000000000000000</double>
-         </property>
-        </widget>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="lneCamFovHor"/>
        </item>
-       <item row="1" column="0">
+       <item row="3" column="0">
         <widget class="QLabel" name="lblCamFovVert">
          <property name="text">
           <string>Vertical FOV (deg)</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="QDoubleSpinBox" name="dspnCamFovVert">
-         <property name="maximum">
-          <double>360.000000000000000</double>
-         </property>
-        </widget>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="lneCamFovVert"/>
        </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="lblCamMinDistance">
+       <item row="4" column="0">
+        <widget class="QLabel" name="lblCamDist">
          <property name="text">
           <string>Distance To Tgt (in.)</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
-        <widget class="QDoubleSpinBox" name="dspnCamMinDistance"/>
+       <item row="4" column="1">
+        <widget class="QLineEdit" name="lneCamDist"/>
        </item>
-       <item row="3" column="0">
+       <item row="5" column="0">
         <widget class="QLabel" name="lblCamPitch">
          <property name="text">
           <string>Pitch (deg)</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
-        <widget class="QDoubleSpinBox" name="dspnCamPitch">
-         <property name="minimum">
-          <double>-90.000000000000000</double>
-         </property>
-         <property name="maximum">
-          <double>90.000000000000000</double>
-         </property>
-         <property name="singleStep">
-          <double>0.100000000000000</double>
-         </property>
-        </widget>
+       <item row="5" column="1">
+        <widget class="QLineEdit" name="lneCamPitch"/>
        </item>
-       <item row="4" column="0">
+       <item row="6" column="0">
         <widget class="QLabel" name="lblCamYaw">
          <property name="text">
           <string>Yaw (deg)</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="1">
-        <widget class="QDoubleSpinBox" name="dspnCamYaw">
-         <property name="minimum">
-          <double>-90.000000000000000</double>
-         </property>
-         <property name="maximum">
-          <double>90.000000000000000</double>
-         </property>
-         <property name="singleStep">
-          <double>0.100000000000000</double>
+       <item row="6" column="1">
+        <widget class="QLineEdit" name="lneCamYaw"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="lblCamOffset">
+         <property name="text">
+          <string>Camera Offset (in.)</string>
          </property>
         </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="lneCamOffset"/>
        </item>
       </layout>
      </widget>

@@ -19,6 +19,9 @@ void MainWindow::makeConnections()
   connect(m_ui->actClose, &QAction::triggered, this, &MainWindow::close);
   connect(m_ui->actAbout, &QAction::triggered, this, &MainWindow::actAboutHandler);
 }
+void MainWindow::setup()
+{
+}
 void MainWindow::reset()
 {
   if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
@@ -27,14 +30,16 @@ void MainWindow::reset()
   } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
 
   //set all the values back to 0
-  m_ui->dspnCamPitch->setValue(0.0);
-  m_ui->dspnCamYaw->setValue(0.0);
-  m_ui->dspnVtWidth->setValue(0.0);
-  m_ui->dspnVtHeight->setValue(0.0);
-  m_ui->dspnCamFovHor->setValue(0.0);
-  m_ui->dspnCamFovVert->setValue(0.0);
-  m_ui->dspnCamMinDistance->setValue(0.0);
-  m_ui->dspnVtCenterHeight->setValue(0.0);
+  m_ui->lneCamPitch->clear();
+  m_ui->lneCamYaw->clear();
+  m_ui->lneVtWidth->clear();
+  m_ui->lneVtHeight->clear();
+  m_ui->lneCamFovHor->clear();
+  m_ui->lneCamFovVert->clear();
+  m_ui->lneCamDist->clear();
+  m_ui->lneVtCenterHeight->clear();
+  m_ui->lneCamHeight->clear();
+  m_ui->lneCamOffset->clear();
 
   //clear the results window since they are now stale
   m_ui->lstResults->clear();
@@ -109,16 +114,19 @@ void MainWindow::btnCalculateClickHandler()
     cout << "DEBUG: MainWindow: btnCalculateClickHandler()" << endl;
   } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
   //get parameters
-  auto dist = m_ui->dspnCamMinDistance->value();
-  auto vFov = m_ui->dspnCamFovVert->value() * DEG_TO_RAD;
-  auto hFov = m_ui->dspnCamFovHor->value() * DEG_TO_RAD;
-  auto camPitch = m_ui->dspnCamPitch->value() * DEG_TO_RAD;
-  auto camYaw = m_ui->dspnCamYaw->value() * DEG_TO_RAD;
-  auto tgtHeight = m_ui->dspnVtCenterHeight->value();
-  auto tgtSizeV = m_ui->dspnVtHeight->value();
-  auto tgtSizeH = m_ui->dspnVtWidth->value();
+  auto dist = m_ui->lneCamYaw->text().toDouble();
+  auto camHeight = m_ui->lneCamHeight->text().toDouble();
+  auto camOffset = m_ui->lneCamOffset->text().toDouble();
+  auto vFov = m_ui->lneCamFovVert->text().toDouble() * DEG_TO_RAD;
+  auto hFov = m_ui->lneCamFovHor->text().toDouble() * DEG_TO_RAD;
+  auto camPitch = m_ui->lneCamPitch->text().toDouble() * DEG_TO_RAD;
+  auto camYaw = m_ui->lneCamYaw->text().toDouble() * DEG_TO_RAD;
+  auto tgtHeight = m_ui->lneVtCenterHeight->text().toDouble();
+  auto tgtSizeV = m_ui->lneVtHeight->text().toDouble();
+  auto tgtSizeH = m_ui->lneVtWidth->text().toDouble();
 
-  auto params = TriangleInfo(dist,vFov,hFov,camPitch,camYaw,tgtHeight,tgtSizeV,tgtSizeH);
+  auto params = TriangleInfo(dist, camHeight, camOffset, vFov, hFov, camPitch, camYaw,
+                             tgtHeight, tgtSizeV, tgtSizeH);
 
   auto results = calcHeight(params);
   auto max = std::get<(int)ResultHelper::MAX>(results);

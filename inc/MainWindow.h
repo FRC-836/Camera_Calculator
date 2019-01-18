@@ -7,6 +7,8 @@
 
 #include <QMainWindow>
 #include <QCloseEvent>
+#include <QTextStream>
+#include <QDoubleValidator>
 
 #include "ui_MainWindow.h"
 #include "OutputManager.h"
@@ -52,6 +54,22 @@ class MainWindow : public QMainWindow
         this->tgtHeight = tgtHeight;
         this->tgtSizeH = tgtSizeH;
         this->tgtSizeV = tgtSizeV;
+      }
+      QString toString(const char* prefix = "") const
+      {
+        QString toReturn;
+        QTextStream sstream(&toReturn);
+        sstream << prefix << "dist: " << minDist << endl;
+        sstream << prefix << QStringLiteral("camHeight: ") << camHeight << endl;
+        sstream << prefix << QStringLiteral("camOffset: ") << camOffset << endl;
+        sstream << prefix << QStringLiteral("vFov: ") << vFov << endl;
+        sstream << prefix << QStringLiteral("hFov: ") << hFov << endl;
+        sstream << prefix << QStringLiteral("camPitch: ") << camPitch << endl;
+        sstream << prefix << QStringLiteral("camYaw: ") << camYaw << endl;
+        sstream << prefix << QStringLiteral("tgtHeight: ") << tgtHeight << endl;
+        sstream << prefix << QStringLiteral("tgtSizeH: ") << tgtSizeH << endl;
+        sstream << prefix << QStringLiteral("tgtSizeV: ") << tgtSizeV;
+        return toReturn;
       }
     };
 

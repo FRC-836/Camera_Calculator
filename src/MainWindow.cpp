@@ -21,6 +21,28 @@ void MainWindow::makeConnections()
 }
 void MainWindow::setup()
 {
+  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
+  {
+    cout << "DEBUG: MainWindow: setup()" << endl;
+  } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
+
+  auto lengthValidator = new QDoubleValidator(0.0, 2000.0, 20);
+  lengthValidator->setNotation(QDoubleValidator::Notation::StandardNotation);
+  auto fovValidator = new QDoubleValidator(0.0, 360.0, 20);
+  fovValidator->setNotation(QDoubleValidator::Notation::StandardNotation);
+  auto orientValidator = new QDoubleValidator(-90.0, -90.0, 20);
+  orientValidator->setNotation(QDoubleValidator::Notation::StandardNotation);
+
+  m_ui->lneCamDist->setValidator(lengthValidator);
+  m_ui->lneCamHeight->setValidator(lengthValidator);
+  m_ui->lneCamOffset->setValidator(lengthValidator);
+  m_ui->lneCamFovVert->setValidator(fovValidator);
+  m_ui->lneCamFovHor->setValidator(fovValidator);
+  m_ui->lneCamPitch->setValidator(orientValidator);
+  m_ui->lneCamYaw->setValidator(orientValidator);
+  m_ui->lneVtCenterHeight->setValidator(lengthValidator);
+  m_ui->lneVtHeight->setValidator(lengthValidator);
+  m_ui->lneVtWidth->setValidator(lengthValidator);
 }
 void MainWindow::reset()
 {
@@ -48,7 +70,9 @@ MainWindow::CalcReturn_t MainWindow::calcHeight(const TriangleInfo& params)
 {
   if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
   {
-    cout << "DEBUG: MainWindow: calculateHeights()" << endl;
+    cout << "DEBUG: MainWindow: calcHeight()" << endl;
+    cout << "DEBUG: MainWindow: paramaters used for calculation" << endl;
+    cout << params.toString("\t") << endl;
   } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
 
   //calculate min and max camera heights
@@ -59,6 +83,39 @@ MainWindow::CalcReturn_t MainWindow::calcHeight(const TriangleInfo& params)
   std::get<(int)ResultHelper::MAX>(toReturn) = maxCamH;
   std::get<(int)ResultHelper::MIN>(toReturn) = minCamH;
   return toReturn;
+}
+MainWindow::CalcReturn_t MainWindow::calcDistance(const TriangleInfo& params)
+{
+  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
+  {
+    cout << "DEBUG: MainWindow: calcDistance()" << endl;
+    cout << "DEBUG: MainWindow: paramaters used for calculation" << endl;
+    cout << params.toString("\t") << endl;
+  } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
+
+  return {0, 0};
+}
+MainWindow::CalcReturn_t MainWindow::calcFov(const TriangleInfo& params)
+{
+  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
+  {
+    cout << "DEBUG: MainWindow: calcFov()" << endl;
+    cout << "DEBUG: MainWindow: paramaters used for calculation" << endl;
+    cout << params.toString("\t") << endl;
+  } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
+
+  return {0, 0};
+}
+MainWindow::CalcReturn_t MainWindow::calcPitch(const TriangleInfo& params)
+{
+  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
+  {
+    cout << "DEBUG: MainWindow: calcPitch()" << endl;
+    cout << "DEBUG: MainWindow: paramaters used for calculation" << endl;
+    cout << params.toString("\t") << endl;
+  } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
+
+  return {0, 0};
 }
 void MainWindow::displayAbout()
 {
@@ -89,6 +146,7 @@ MainWindow::MainWindow()
   m_ui->setupUi(this);
 
   makeConnections();
+  setup();
 }
 MainWindow::~MainWindow()
 {
@@ -114,7 +172,7 @@ void MainWindow::btnCalculateClickHandler()
     cout << "DEBUG: MainWindow: btnCalculateClickHandler()" << endl;
   } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
   //get parameters
-  auto dist = m_ui->lneCamYaw->text().toDouble();
+  auto dist = m_ui->lneCamDist->text().toDouble();
   auto camHeight = m_ui->lneCamHeight->text().toDouble();
   auto camOffset = m_ui->lneCamOffset->text().toDouble();
   auto vFov = m_ui->lneCamFovVert->text().toDouble() * DEG_TO_RAD;
@@ -127,6 +185,12 @@ void MainWindow::btnCalculateClickHandler()
 
   auto params = TriangleInfo(dist, camHeight, camOffset, vFov, hFov, camPitch, camYaw,
                              tgtHeight, tgtSizeV, tgtSizeH);
+
+  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
+  {
+    cout << "DEBUG: MainWindow: values at time of button press" << endl;
+    cout << params.toString("\t") << endl;
+  }
 
   auto results = calcHeight(params);
   auto max = std::get<(int)ResultHelper::MAX>(results);

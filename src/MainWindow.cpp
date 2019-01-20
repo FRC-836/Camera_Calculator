@@ -192,7 +192,26 @@ void MainWindow::btnCalculateClickHandler()
     cout << params.toString("\t") << endl;
   }
 
-  auto results = calcHeight(params);
+  CalcReturn_t results;
+
+  //determine which calculation needs made
+  if (m_ui->lneCamHeight->text().trimmed().isEmpty())
+  {
+    results = calcHeight(params);
+  } //end  if (m_ui->lneCamHeight->text().trimmed().isEmpty())
+  else if (m_ui->lneCamDist->text().trimmed().isEmpty())
+  {
+    results = calcDistance(params);
+  } //end  else if (m_ui->lneCamDist->text().trimmed().isEmpty())
+  else if (m_ui->lneCamFovVert->text().trimmed().isEmpty())
+  {
+    results = calcFov(params);
+  } //end  else if (m_ui->lneCamFovVert->text().trimmed().isEmpty())
+  else if (m_ui->lneCamPitch->text().trimmed().isEmpty())
+  {
+    results = calcPitch(params);
+  } //end  else if (m_ui->lneCamPitch->text().trimmed().isEmpty())
+
   auto max = std::get<(int)ResultHelper::MAX>(results);
   auto min = std::get<(int)ResultHelper::MIN>(results);
 

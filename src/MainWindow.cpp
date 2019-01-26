@@ -93,7 +93,29 @@ MainWindow::CalcReturn_t MainWindow::calcDistance(const TriangleInfo& params)
     cout << params.toString("\t") << endl;
   } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
 
-  return {0, 0};
+  //Vc: Height to the center of the vision target
+  //Hc: Height to the center of the camera
+  //Vh: Height of the vision target
+  //phi: vertical FOV of the camera
+  //theta: pitch of the camera
+  //max = (Hc - Vc - (Vh / 2)) / (tan((phi / 2) - theta))
+  //min = (Vc - (Vh / 2) - Hc) / (tan((phi / 2) + theta))
+
+  auto Vc = params.tgtHeight;
+  auto Hc = params.camHeight;
+  auto Vh = params.tgtSizeV;
+  auto phi = params.vFov;
+  auto theta = params.camPitch;
+
+  CalcReturn_t toReturn;
+
+  auto max = (Hc - Vc - (Vh / 2)) / (std::tan((phi / 2) - theta));
+  auto min = (Vc - (Vh / 2) - Hc) / (std::tan((phi / 2) + theta));
+
+  std::get<(int)ResultHelper::MAX>(toReturn) = max;
+  std::get<(int)ResultHelper::MIN>(toReturn) = min;
+
+  return toReturn;
 }
 MainWindow::CalcReturn_t MainWindow::calcFov(const TriangleInfo& params)
 {

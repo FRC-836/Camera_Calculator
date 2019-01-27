@@ -9,6 +9,7 @@
 #include <QCloseEvent>
 #include <QTextStream>
 #include <QDoubleValidator>
+#include <QStringList>
 
 #include "ui_MainWindow.h"
 #include "OutputManager.h"
@@ -22,12 +23,6 @@ class MainWindow : public QMainWindow
     const double DEG_TO_RAD = 3.14159265 / 180.0;
 
     //enums and types
-    enum class ResultHelper
-    {
-      MIN,
-      MAX
-    };
-    using CalcReturn_t = std::tuple<double, double>;
     struct TriangleInfo
     {
       double minDist;
@@ -80,10 +75,10 @@ class MainWindow : public QMainWindow
     void makeConnections();
     void setup();
     void reset();
-    CalcReturn_t calcHeight(const TriangleInfo& params);
-    CalcReturn_t calcDistance(const TriangleInfo& params);
-    CalcReturn_t calcFov(const TriangleInfo& params);
-    CalcReturn_t calcPitch(const TriangleInfo& params);
+    QStringList calcHeight(const TriangleInfo& params);
+    QStringList calcDistance(const TriangleInfo& params);
+    QStringList calcFov(const TriangleInfo& params);
+    QStringList calcPitch(const TriangleInfo& params);
     void displayAbout();
 
   protected:

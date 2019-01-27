@@ -66,7 +66,7 @@ void MainWindow::reset()
   //clear the results window since they are now stale
   m_ui->lstResults->clear();
 }
-MainWindow::CalcReturn_t MainWindow::calcHeight(const TriangleInfo& params)
+QStringList MainWindow::calcHeight(const TriangleInfo& params)
 {
   if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
   {
@@ -79,12 +79,12 @@ MainWindow::CalcReturn_t MainWindow::calcHeight(const TriangleInfo& params)
   auto minCamH = -params.minDist * std::tan((params.vFov / 2) + params.camPitch) + params.tgtHeight - (params.tgtSizeV / 2);
   auto maxCamH = params.minDist * std::tan((params.vFov / 2) - params.camPitch) + params.tgtHeight + (params.tgtSizeV / 2);
 
-  CalcReturn_t toReturn;
-  std::get<(int)ResultHelper::MAX>(toReturn) = maxCamH;
-  std::get<(int)ResultHelper::MIN>(toReturn) = minCamH;
+  QStringList toReturn;
+  toReturn.push_back("max: " + QString::number(maxCamH));
+  toReturn.push_back("min: " + QString::number(minCamH));
   return toReturn;
 }
-MainWindow::CalcReturn_t MainWindow::calcDistance(const TriangleInfo& params)
+QStringList MainWindow::calcDistance(const TriangleInfo& params)
 {
   if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
   {
@@ -107,17 +107,15 @@ MainWindow::CalcReturn_t MainWindow::calcDistance(const TriangleInfo& params)
   auto phi = params.vFov;
   auto theta = params.camPitch;
 
-  CalcReturn_t toReturn;
-
   auto max = (Hc - Vc - (Vh / 2)) / (std::tan((phi / 2) - theta));
   auto min = (Vc - (Vh / 2) - Hc) / (std::tan((phi / 2) + theta));
 
-  std::get<(int)ResultHelper::MAX>(toReturn) = max;
-  std::get<(int)ResultHelper::MIN>(toReturn) = min;
-
+  QStringList toReturn;
+  toReturn.push_back("max: " + QString::number(max));
+  toReturn.push_back("min: " + QString::number(min));
   return toReturn;
 }
-MainWindow::CalcReturn_t MainWindow::calcFov(const TriangleInfo& params)
+QStringList MainWindow::calcFov(const TriangleInfo& params)
 {
   if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
   {
@@ -126,9 +124,9 @@ MainWindow::CalcReturn_t MainWindow::calcFov(const TriangleInfo& params)
     cout << params.toString("\t") << endl;
   } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
 
-  return {0, 0};
+  return QStringList();
 }
-MainWindow::CalcReturn_t MainWindow::calcPitch(const TriangleInfo& params)
+QStringList MainWindow::calcPitch(const TriangleInfo& params)
 {
   if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
   {
@@ -137,7 +135,7 @@ MainWindow::CalcReturn_t MainWindow::calcPitch(const TriangleInfo& params)
     cout << params.toString("\t") << endl;
   } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
 
-  return {0, 0};
+  return QStringList();
 }
 void MainWindow::displayAbout()
 {
@@ -214,8 +212,7 @@ void MainWindow::btnCalculateClickHandler()
     cout << params.toString("\t") << endl;
   }
 
-  CalcReturn_t results;
-
+  QStringList results;
   //determine which calculation needs made
   if (m_ui->lneCamHeight->text().trimmed().isEmpty())
   {
@@ -234,13 +231,10 @@ void MainWindow::btnCalculateClickHandler()
     results = calcPitch(params);
   } //end  else if (m_ui->lneCamPitch->text().trimmed().isEmpty())
 
-  auto max = std::get<(int)ResultHelper::MAX>(results);
-  auto min = std::get<(int)ResultHelper::MIN>(results);
-
-  //print to the screen
-  m_ui->lstResults->insertItem(0, ""); //blank item to help seperate results
-  m_ui->lstResults->insertItem(0, "max: " + QString::number(max));
-  m_ui->lstResults->insertItem(0, "min: " + QString::number(min));
+  for (auto line : results)
+  {
+    m_ui->lstResults->insertItem(0, line);
+  }
 }
 void MainWindow::actAboutHandler()
 {

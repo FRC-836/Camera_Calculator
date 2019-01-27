@@ -10,6 +10,7 @@
 #include <QTextStream>
 #include <QDoubleValidator>
 #include <QStringList>
+#include <QMessageBox>
 
 #include "ui_MainWindow.h"
 #include "OutputManager.h"

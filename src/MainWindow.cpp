@@ -143,6 +143,14 @@ void MainWindow::displayAbout()
   {
     cout << "DEBUG: MainWindow: displayAbout()" << endl;
   } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
+  auto author = QStringLiteral("Author: Matthew \"Cheeto\" Russell");
+  auto title = QStringLiteral("Camera Calculator");
+  auto description = QStringLiteral("Tool used to calculate camera placement parameters");
+  auto version = QStringLiteral("Version: 0.1.0");
+  auto contactInfo = QStringLiteral("email: mprussell@robobees.org");
+
+  QMessageBox::about(this, "About FRC Score Analyzer", title + "\n" + version + "\n" +
+                     description + "\n" + author + "\n" + contactInfo);
 }
 
 //event handlers

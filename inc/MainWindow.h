@@ -76,10 +76,10 @@ class MainWindow : public QMainWindow
     void makeConnections();
     void setup();
     void reset();
-    QStringList calcHeight(const TriangleInfo& params);
+    QStringList calcLocation(const TriangleInfo& params);
     QStringList calcDistance(const TriangleInfo& params);
     QStringList calcFov(const TriangleInfo& params);
-    QStringList calcPitch(const TriangleInfo& params);
+    QStringList calcOrientation(const TriangleInfo& params);
     void displayAbout();
 
   protected:

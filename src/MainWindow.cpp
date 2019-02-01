@@ -66,7 +66,7 @@ void MainWindow::reset()
   //clear the results window since they are now stale
   m_ui->lstResults->clear();
 }
-QStringList MainWindow::calcHeight(const TriangleInfo& params)
+QStringList MainWindow::calcLocation(const TriangleInfo& params)
 {
   if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
   {
@@ -75,9 +75,15 @@ QStringList MainWindow::calcHeight(const TriangleInfo& params)
     cout << params.toString("\t") << endl;
   } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
 
-  //calculate min and max camera heights
-  auto minCamH = -params.minDist * std::tan((params.vFov / 2) + params.camPitch) + params.tgtHeight - (params.tgtSizeV / 2);
-  auto maxCamH = params.minDist * std::tan((params.vFov / 2) - params.camPitch) + params.tgtHeight + (params.tgtSizeV / 2);
+  const auto tgtSize = params.tgtSizeV / 2.0;
+
+  //calculate min camera height
+  const auto minTanResult = std::tan((params.vFov / 2) + params.camPitch);
+  auto minCamH = -params.minDist * minTanResult + params.tgtHeight - tgtSize;
+
+  //calculate max camera height
+  const auto maxTanResult = std::tan((params.vFov / 2) - params.camPitch);
+  auto maxCamH = params.minDist * maxTanResult + params.tgtHeight + tgtSize;
 
   QStringList toReturn;
   toReturn.push_back("max: " + QString::number(maxCamH));
@@ -126,7 +132,7 @@ QStringList MainWindow::calcFov(const TriangleInfo& params)
 
   return QStringList();
 }
-QStringList MainWindow::calcPitch(const TriangleInfo& params)
+QStringList MainWindow::calcOrientation(const TriangleInfo& params)
 {
   if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
   {
@@ -224,7 +230,7 @@ void MainWindow::btnCalculateClickHandler()
   //determine which calculation needs made
   if (m_ui->lneCamHeight->text().trimmed().isEmpty())
   {
-    results = calcHeight(params);
+    results = calcLocation(params);
   } //end  if (m_ui->lneCamHeight->text().trimmed().isEmpty())
   else if (m_ui->lneCamDist->text().trimmed().isEmpty())
   {
@@ -236,13 +242,13 @@ void MainWindow::btnCalculateClickHandler()
   } //end  else if (m_ui->lneCamFovVert->text().trimmed().isEmpty())
   else if (m_ui->lneCamPitch->text().trimmed().isEmpty())
   {
-    results = calcPitch(params);
+    results = calcOrientation(params);
   } //end  else if (m_ui->lneCamPitch->text().trimmed().isEmpty())
 
   for (auto line : results)
   {
     m_ui->lstResults->insertItem(0, line);
-  }
+  } //end  for (auto line : results)
 }
 void MainWindow::actAboutHandler()
 {

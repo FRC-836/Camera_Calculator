@@ -79,15 +79,25 @@ QStringList MainWindow::calcLocation(const TriangleInfo& params)
 
   //calculate min camera height
   const auto minTanResult = std::tan((params.vFov / 2) + params.camPitch);
-  auto minCamH = -params.minDist * minTanResult + params.tgtHeight - tgtSize;
+  auto heightMin = -params.minDist * minTanResult + params.tgtHeight - tgtSize;
 
   //calculate max camera height
   const auto maxTanResult = std::tan((params.vFov / 2) - params.camPitch);
-  auto maxCamH = params.minDist * maxTanResult + params.tgtHeight + tgtSize;
+  auto heightMax = params.minDist * maxTanResult + params.tgtHeight + tgtSize;
 
   QStringList toReturn;
-  toReturn.push_back("max: " + QString::number(maxCamH));
-  toReturn.push_back("min: " + QString::number(minCamH));
+  toReturn.push_back("INPUTS:");
+  toReturn.push_back("FOV: vert: " + QString::number(params.vFov) + 
+                     " hor: " + QString::number(params.hFov));
+  toReturn.push_back("Orientation: pitch: " + QString::number(params.camPitch) +
+                     " yaw: " + QString::number(params.camYaw));
+  toReturn.push_back("Distance From Target: " + QString::number(params.minDist));
+  toReturn.push_back("----------------------------------------------------------");
+  toReturn.push_back("OUTPUTS:");
+  toReturn.push_back("HEIGHT max: " + QString::number(heightMax) + 
+                     " min: " + QString::number(heightMin));
+  toReturn.push_back("Offset: max: " + QString::number(offsetMax) +
+                     " min: " + QString::number(offsetMin));
   return toReturn;
 }
 QStringList MainWindow::calcDistance(const TriangleInfo& params)
@@ -331,6 +341,7 @@ void MainWindow::btnCalculateClickHandler()
     results = calcOrientation(params);
   }//end else if(m_ui->lneCamPitch->text().isEmpty() || m_ui->lneCamYaw->text().isEmpty())
 
+  m_ui->lstResults->insertItem(0, "");
   for (auto line : results)
   {
     m_ui->lstResults->insertItem(0, line);

@@ -20,7 +20,7 @@ int main(int argc, char** argv)
   } //end  if (!parseCmd())
 
   //print out the cmd args
-  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
+  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::VERBOSE_INFO)
   {
     cout << "Verbosity:        " << CmdOptions::verbosity << endl;
   } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)

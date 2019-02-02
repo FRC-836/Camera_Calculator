@@ -158,6 +158,81 @@ void MainWindow::displayAbout()
   QMessageBox::about(this, "About FRC Score Analyzer", title + "\n" + version + "\n" +
                      description + "\n" + author + "\n" + contactInfo);
 }
+bool MainWindow::verifyInput()
+{
+  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
+  {
+    cout << "DEBUG: MainWindow: verifyInput()" << endl;
+  } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
+
+  //verify that all the vision target info is provided
+  if (m_ui->lneVtWidth->text().isEmpty() || m_ui->lneVtHeight->text().isEmpty() || 
+      m_ui->lneVtCenterHeight->text().isEmpty())
+  {
+    if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::ERRORS_ONLY)
+    {
+      cout << "ERROR: MainWindow: all info for the vision target must be provided" << endl;
+    } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::ERRORS_ONLY)
+    return false;
+  }//end if (m_ui->lneVtWidth->text().isEmpty() || m_ui->lneVtHeight->text().isEmpty() || 
+
+  //figure out which fields are empty
+  int numEmpty = 0;
+  if (m_ui->lneCamDist->text().isEmpty())
+  {
+    if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::VERBOSE_INFO)
+    {
+      cout << "INFO: MainWindow: distance is empty" << endl;
+    } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::VERBOSE_INFO)
+    numEmpty++;
+  } //end  if (m_ui->lneCamDist->text().isEmpty())
+  if(m_ui->lneCamPitch->text().isEmpty() || m_ui->lneCamYaw->text().isEmpty())
+  {
+    if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::VERBOSE_INFO)
+    {
+      cout << "INFO: MainWindow: orientation is empty" << endl;
+    } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::VERBOSE_INFO)
+    numEmpty++;
+  } //end  if(m_ui->lneCamPitch->text().isEmpty() || m_ui->lneCamYaw->text().isEmpty())
+  if (m_ui->lneCamFovVert->text().isEmpty() || m_ui->lneCamFovHor->text().isEmpty())
+  {
+    if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::VERBOSE_INFO)
+    {
+      cout << "INFO: MainWindow: FOV is empty" << endl;
+    } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::VERBOSE_INFO)
+    numEmpty++;
+  }//end if (m_ui->lneCamFovVert->text().isEmpty()||m_ui->lneCamFovHor->text().isEmpty())
+  if (m_ui->lneCamHeight->text().isEmpty() || m_ui->lneCamOffset->text().isEmpty())
+  {
+    if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::VERBOSE_INFO)
+    {
+      cout << "INFO: MainWindow: Position is empty" << endl;
+    } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::VERBOSE_INFO)
+    numEmpty++;
+  }//end if (m_ui->lneCamHeight->text().isEmpty() || m_ui->lneCamOffset->text().isEmpty())
+
+  //system is underdefined, can't calculate with missing information
+  if (numEmpty > 1)
+  {
+    if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::ERRORS_ONLY)
+    {
+      cout << "ERROR: MainWindow: not enought info provided for calculations" << endl;
+      cout << "\t" << numEmpty << " blocks are empty, only 1 can be" << endl;
+    } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::ERRORS_ONLY)
+    return false;
+  } //end  if (numEmpty > 1)
+  
+  //system is overdefined, nothing to calculate
+  if (numEmpty == 0)
+  {
+    if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::ERRORS_ONLY)
+    {
+      cout << "ERROR: MainWindow: All fields are defined, nothing to calculate" << endl;
+    } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::ERRORS_ONLY)
+    return false;
+  } //end  if (numEmpty == 0)
+  return true;
+}
 
 //event handlers
 void MainWindow::closeEvent(QCloseEvent* e)
@@ -205,6 +280,16 @@ void MainWindow::btnCalculateClickHandler()
   {
     cout << "DEBUG: MainWindow: btnCalculateClickHandler()" << endl;
   } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
+
+  if (!verifyInput())
+  {
+    if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::ERRORS_ONLY)
+    {
+      cout << "ERROR: output cannot be calculated due to invalid inputs" << endl;
+    } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::ERRORS_ONLY)
+    return;
+  } //end  if (!verifyInput())
+
   //get parameters
   auto dist = m_ui->lneCamDist->text().toDouble();
   auto camHeight = m_ui->lneCamHeight->text().toDouble();
@@ -224,26 +309,27 @@ void MainWindow::btnCalculateClickHandler()
   {
     cout << "DEBUG: MainWindow: values at time of button press" << endl;
     cout << params.toString("\t") << endl;
-  }
+  } //end  if (CmdOptions::verbosity >= CmdOptions::VERBOSITY::DEBUG_INFO)
 
   QStringList results;
   //determine which calculation needs made
-  if (m_ui->lneCamHeight->text().trimmed().isEmpty())
+  //TODO: figure out better way to do this
+  if (m_ui->lneCamHeight->text().isEmpty() || m_ui->lneCamOffset->text().isEmpty())
   {
     results = calcLocation(params);
-  } //end  if (m_ui->lneCamHeight->text().trimmed().isEmpty())
-  else if (m_ui->lneCamDist->text().trimmed().isEmpty())
+  }//end if (m_ui->lneCamHeight->text().isEmpty() || m_ui->lneCamOffset->text().isEmpty())
+  else if (m_ui->lneCamDist->text().isEmpty())
   {
     results = calcDistance(params);
   } //end  else if (m_ui->lneCamDist->text().trimmed().isEmpty())
-  else if (m_ui->lneCamFovVert->text().trimmed().isEmpty())
+  else if (m_ui->lneCamFovVert->text().isEmpty() || m_ui->lneCamFovHor->text().isEmpty())
   {
     results = calcFov(params);
-  } //end  else if (m_ui->lneCamFovVert->text().trimmed().isEmpty())
-  else if (m_ui->lneCamPitch->text().trimmed().isEmpty())
+  }//end else if(m_ui->lneCamFovVert->text.isEmpty()||m_ui->lneCamFovHor->text.isEmpty())
+  else if (m_ui->lneCamPitch->text().isEmpty() || m_ui->lneCamYaw->text().isEmpty())
   {
     results = calcOrientation(params);
-  } //end  else if (m_ui->lneCamPitch->text().trimmed().isEmpty())
+  }//end else if(m_ui->lneCamPitch->text().isEmpty() || m_ui->lneCamYaw->text().isEmpty())
 
   for (auto line : results)
   {

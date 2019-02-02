@@ -81,6 +81,7 @@ class MainWindow : public QMainWindow
     QStringList calcFov(const TriangleInfo& params);
     QStringList calcOrientation(const TriangleInfo& params);
     void displayAbout();
+    bool verifyInput();
 
   protected:
     //event handlers
